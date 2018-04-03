@@ -1,49 +1,47 @@
-<pre>
-  class Enumerable {
-  constructor(collection, operations) {
-    this.collection = collection;
-    this.operations = operations || [];
-  }
+<p>class Enumerable {<br>
+ constructor(collection, operations) {<br>
+ this.collection = collection;<br>
+ this.operations = operations || [];<br>
+ }</p>
 
-  build(fn) {
-    return new Enumerable(this.collection.slice(), this.operations.concat(fn));
-  }
+<p> build(fn) {<br>
+ return new Enumerable(this.collection.slice(), this.operations.concat(fn));<br>
+ }</p>
 
-  // BEGIN (write your solution here)
-  where(...theArgs) {
-    const newOp = this.operations.slice();
-    const newEl = this.collection.slice();
-    theArgs.forEach((element) => {
-      if (typeof element === 'function') {
-        newOp.push(coll => coll.filter(element));
-      }
-    });
+<p> // BEGIN (write your solution here)<br>
+ where(...theArgs) {<br>
+ const newOp = this.operations.slice();<br>
+ const newEl = this.collection.slice();<br>
+ theArgs.forEach((element) => {<br>
+ if (typeof element === 'function') {<br>
+ newOp.push(coll => coll.filter(element));<br>
+ }<br>
+ });</p>
 
-    let filteredArray = newEl;
-    const selObj = theArgs.filter(element1 => typeof element1 !== 'function');
-    selObj.forEach((key1) => {
-      const keyObj = Object.keys(key1);
-      keyObj.forEach((key2) => {
-        const valueObj = key1[key2];
-        filteredArray = newEl.filter(element2 => element2[key2] === valueObj);
-      });
-    });
-    return new Enumerable(filteredArray, newOp);
-  }
-  // END
+<p> let filteredArray = newEl;<br>
+ const selObj = theArgs.filter(element1 => typeof element1 !== 'function');<br>
+ selObj.forEach((key1) => {<br>
+ const keyObj = Object.keys(key1);<br>
+ keyObj.forEach((key2) => {<br>
+ const valueObj = key1[key2];<br>
+ filteredArray = newEl.filter(element2 => element2[key2] === valueObj);<br>
+ });<br>
+ });<br>
+ return new Enumerable(filteredArray, newOp);<br>
+ }<br>
+ // END</p>
 
-  get length() {
-    return this.toArray().length;
-  }
+<p> get length() {<br>
+ return this.toArray().length;<br>
+ }</p>
 
-  toArray() {
-    if (!this.memo) {
-      this.memo = this.operations.reduce((acc, func) => func(acc), this.collection);
-    }
+<p> toArray() {<br>
+ if (!this.memo) {<br>
+ this.memo = this.operations.reduce((acc, func) => func(acc), this.collection);<br>
+ }</p>
 
-    return this.memo;
-  }
-}
+<p> return this.memo;<br>
+ }<br>
+}</p>
 
-export default Enumerable;
-</pre>
+<p>export default Enumerable;</p>
