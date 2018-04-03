@@ -1,0 +1,47 @@
+class Enumerable {
+  constructor(collection, operations) {
+    this.collection = collection;
+    this.operations = operations || [];
+  }
+
+  build(fn) {
+    return new Enumerable(this.collection.slice(), this.operations.concat(fn));
+  }
+
+  // BEGIN (write your solution here)
+  where(...theArgs) {
+    const newOp = this.operations.slice();
+    const newEl = this.collection.slice();
+    theArgs.forEach((element) => {
+      if (typeof element === 'function') {
+        newOp.push(coll => coll.filter(element));
+      }
+    });
+
+    let filteredArray = newEl;
+    const selObj = theArgs.filter(element1 => typeof element1 !== 'function');
+    selObj.forEach((key1) => {
+      const keyObj = Object.keys(key1);
+      keyObj.forEach((key2) => {
+        const valueObj = key1[key2];
+        filteredArray = newEl.filter(element2 => element2[key2] === valueObj);
+      });
+    });
+    return new Enumerable(filteredArray, newOp);
+  }
+  // END
+
+  get length() {
+    return this.toArray().length;
+  }
+
+  toArray() {
+    if (!this.memo) {
+      this.memo = this.operations.reduce((acc, func) => func(acc), this.collection);
+    }
+
+    return this.memo;
+  }
+}
+
+export default Enumerable;
